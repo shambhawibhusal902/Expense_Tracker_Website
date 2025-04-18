@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenzo - Expense Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Mobile menu toggle button -->
+    <button class="menu-toggle" id="menuToggle">☰</button>
+
+    <!-- Sidebar navigation -->
+    <div class="sidebar" id="sidebar">
+        <div class="logo">Expenzo</div>
+        <div class="user-profile">
+            <div class="avatar">S</div>
+            <div class="user-name">Sam</div>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item" data-section="expense">
+                <span class="nav-icon">💸</span>
+                Expense
+            </li>
+            <li class="nav-item" data-section="income">
+                <span class="nav-icon">💰</span>
+                Income
+            </li>
+            <li class="nav-item active" data-section="transactions">
+                <span class="nav-icon">📋</span>
+                View Transactions
+            </li>
+            <li class="nav-item" data-section="charts">
+                <span class="nav-icon">📊</span>
+                Charts and Reports
+            </li>
+            <li class="nav-item" data-section="savings">
+                <span class="nav-icon">💹</span>
+                Savings and Budgets
+            </li>
+            <li class="nav-item" data-section="profile">
+                <span class="nav-icon">👤</span>
+                Profile
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <header class="header"></header>
+        
+        <div class="category-selector">
+            <div class="category-label">Select Category</div>
+            <div class="category-dropdown">
+                <div class="category-select" id="categorySelect">
+                    <span>All Categories</span>
+                    <i class="arrow"></i>
+                </div>
+                <div class="category-options" id="categoryOptions">
+                    <div class="category-option" data-value="all">All Categories</div>
+                    <div class="category-option" data-value="income">Income</div>
+                    <div class="category-option" data-value="expense">Expense</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="total-section">
+            <div class="total-label">All Total</div>
+            <div class="total-amount">$3336.25</div>
+        </div>
+        
+        <div class="search-section">
+            <input type="text" class="search-input" placeholder="Search Transactions" id="searchTransactions">
+            <button id="clearSearch" class="clear-search-btn">✕</button>
+        </div>
+        
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+            <button class="export-btn" id="exportData">Export Data</button>
+        </div>
+        
+        <table class="transactions-table">
+            <thead>
+                <tr>
+                    <th>DATE</th>
+                    <th>DESCRIPTION</th>
+                    <th>CATEGORY</th>
+                    <th>SUB CATEGORY</th>
+                    <th>AMOUNT</th>
+                </tr>
+            </thead>
+            <tbody id="transactionsTableBody">
+                <!-- Transaction rows will be dynamically inserted here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
