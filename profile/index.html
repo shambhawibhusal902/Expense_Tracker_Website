@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expenzo - Profile</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar" id="sidebar">
+      <div class="logo">Expenzo</div>
+      <div class="user-info">
+        <div class="avatar">
+          <span>S</span>
+        </div>
+        <div class="user-name">Sam</div>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <span class="nav-icon">📊</span>
+          Dashboard
+        </li>
+        <li class="nav-item">
+          <span class="nav-icon">💸</span>
+          Expense
+        </li>
+        <li class="nav-item">
+          <span class="nav-icon">💰</span>
+          Income
+        </li>
+        <li class="nav-item">
+          <span class="nav-icon">💹</span>
+          Saving and Budgets
+        </li>
+        <li class="nav-item">
+          <span class="nav-icon">📋</span>
+          View Transactions
+        </li>
+      </ul>
+    </div>
+    
+    <div class="main-content">
+      <div class="profile-card">
+        <div class="profile-header">Profile</div>
+        
+        <div class="profile-avatar-container">
+          <div class="profile-avatar"></div>
+          <button class="edit-avatar-btn">✎</button>
+        </div>
+        
+        <div class="form-container">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" value="alexfinance" class="form-control">
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" value="alex@example.com" class="form-control">
+          </div>
+          
+          <div class="notification-section">
+            <div class="notification-header">Notification Preferences</div>
+            
+            <div class="notification-item">
+              <span>Budget Warnings</span>
+              <label class="switch">
+                <input type="checkbox" id="budget-warnings" checked>
+                <span class="slider round"></span>
+              </label>
+            </div>
+            
+            <div class="notification-item">
+              <span>Expense Summaries</span>
+              <label class="switch">
+                <input type="checkbox" id="expense-summaries">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="action-buttons">
+            <button id="sign-out-btn" class="btn btn-secondary">
+              <span class="btn-icon">⟲</span> Sign Out
+            </button>
+            <button id="save-changes-btn" class="btn btn-primary">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal (Hidden by default) -->
+  <div id="login-modal" class="login-modal">
+    <div class="login-container">
+      <h2>Login to Expenzo</h2>
+      <div class="form-group">
+        <label for="login-username">Username</label>
+        <input type="text" id="login-username" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" class="form-control">
+      </div>
+      <button id="login-btn" class="btn btn-primary btn-block">Login</button>
+      <div class="login-footer">
+        <a href="#" class="forgot-password">Forgot Password?</a>
+        <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
+      </div>
+    </div>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
