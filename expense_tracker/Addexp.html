@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenzo - Expense Tracker</title>
+    <style>
+        /* CSS Variables for consistent styling */
+        :root {
+            /* Colors */
+            --primary-color: #00563F;
+            --primary-light: #93C572;
+            --secondary-color: #2A2C2C;
+            --dark-bg: #222;
+            --light-bg: #f5f5f5;
+            --white: #ffffff;
+            --border-light: #e0e0e0;
+            --text-dark: #333;
+            --text-light: #777;
+
+            /* Spacing */
+            --space-xs: 5px;
+            --space-sm: 10px;
+            --space-md: 15px;
+            --space-lg: 20px;
+            --space-xl: 30px;
+
+            /* Elements */
+            --card-radius: 8px;
+            --sidebar-width: 250px;
+            --avatar-size: 40px;
+        }
+
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: var(--light-bg);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar styles - keeping black navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-bg);
+            color: var(--white);
+            height: 100vh;
+            padding: var(--space-lg);
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-sm);
+            border-bottom: 1px solid #444;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .avatar {
+            width: var(--avatar-size);
+            height: var(--avatar-size);
+            border-radius: 50%;
+            background-color: #555;
+            margin-right: var(--space-md);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: bold;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: var(--space-md) 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-item:hover {
+            color: var(--primary-light);
+        }
+
+        .nav-item.active {
+            color: var(--primary-light);
+            font-weight: bold;
+        }
+
+        .nav-icon {
+            margin-right: var(--space-md);
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main content styles - just for header */
+        .main-content {
+            flex: 1;
+            padding: var(--space-lg) var(--space-xl);
+            margin-left: var(--sidebar-width);
+            max-width: calc(1440px - var(--sidebar-width));
+            width: 100%;
+        }
+
+        .header {
+            margin-bottom: var(--space-xl);
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: var(--space-md);
+        }
+
+        /* Hamburger menu */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: var(--space-sm);
+            left: var(--space-sm);
+            z-index: 20;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: var(--space-lg);
+                padding-top: 60px;
+                max-width: 100%;
+            }
+        }
+
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        /* Add Expense Styles - REDUCED WIDTH */
+        .add-expense {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 50%;
+
+            margin-top: 10px;
+            /* Changed from 60% to 50% */
+        }
+
+        .add-expense h2 {
+            margin-top: 0;
+            margin-bottom: 45px;
+        }
+
+        .add-expense form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .add-expense label {
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .add-expense input,
+        .add-expense select,
+        .add-expense textarea {
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .add-expense button {
+            padding: 10px;
+            background-color: #00563F;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .add-expense button:hover {
+            /* background-color: #218838; */
+            transform: translateY(-3px);
+            box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Expense List Styles - INCREASED WIDTH */
+        .expense-list {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 45%;
+
+            /* Changed from 35% to 45% */
+            margin-left: 40px;
+            margin-right: 20px;
+            margin-top: 10px;
+
+
+        }
+
+        .expense-list h2 {
+            margin-top: 0;
+        }
+
+        .expense-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .expense-list li {
+            padding: 28px 0;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .expense-list .category {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .expense-list .description {
+            color: #333;
+        }
+
+        .expense-list .date {
+            color: #888;
+            margin-left: auto;
+            margin-right: 10px;
+        }
+
+        .expense-list .amount {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+
+    <div class="sidebar" id="sidebar">
+        <div class="logo">Expenzo</div>
+        <div class="user-profile">
+            <div class="avatar">S</div>
+            <div class="user-name">Sam</div>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <span class="nav-icon">📊</span>
+                Dashboard
+            </li>
+            <li class="nav-item active">
+                <span class="nav-icon">💸</span>
+                Expense
+            </li>
+            <li class="nav-item">
+                <span class="nav-icon">💰</span>
+                Income
+            </li>
+            <li class="nav-item">
+                <span class="nav-icon">💹</span>
+                Saving and Budgets
+            </li>
+            <li class="nav-item">
+                <span class="nav-icon">📋</span>
+                View Transactions
+            </li>
+        </ul>
+    </div>
+
+    <main class="main-content">
+        <header class="header"></header>
+        <div class="dashboard-container">
+            <!-- Add Expense Form -->
+            <div class="add-expense">
+                <h2>Add Expense</h2>
+                <form>
+                    <label>
+                        Expense Amount
+                        <input type="number" placeholder="Rs. 0.00" />
+                    </label>
+                    <label>
+                        Category
+                        <select>
+                            <option>Select Category</option>
+                            <option>Food</option>
+                            <option>Transportation</option>
+                            <option>Shopping</option>
+                            <option>Entertainment</option>
+                            <option>Utilities</option>
+                        </select>
+                    </label>
+                    <label>
+                        Date
+                        <input type="date" value="2025-02-03" />
+                    </label>
+                    <label>
+                        Description
+                        <textarea placeholder="Add a brief description"></textarea>
+                    </label>
+                    <button type="submit">Add Expense</button>
+                </form>
+            </div>
+
+            <!-- Expense List -->
+            <div class="expense-list">
+                <h2>Recent expenses</h2>
+                <ul>
+                    <li>
+                        <span class="category">Food</span>
+                        <span class="description">- Lunch at café</span>
+                        <span class="date">2024-03-25</span>
+                        <span class="amount">Rs.45.50</span>
+                    </li>
+                    <li>
+                        <span class="category">Transportation</span>
+                        <span class="description">- Uber ride</span>
+                        <span class="date">2024-03-24</span>
+                        <span class="amount">Rs.20.00</span>
+                    </li>
+                    <li>
+                        <span class="category">Shopping</span>
+                        <span class="description">- Groceries</span>
+                        <span class="date">2024-03-23</span>
+                        <span class="amount">Rs.75.30</span>
+                    </li>
+                    <li>
+                        <span class="category">Entertainment</span>
+                        <span class="description">- Movie ticket</span>
+                        <span class="date">2024-03-22</span>
+                        <span class="amount">Rs.12.75</span>
+                    </li>
+                    <li>
+                        <span class="category">Utilities</span>
+                        <span class="description">- Phone bill</span>
+                        <span class="date">2024-03-21</span>
+                        <span class="amount">Rs.55.00</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <script>
+        // Menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+
+            // Handle menu toggle for mobile
+            menuToggle.addEventListener('click', function () {
+                sidebar.classList.toggle('active');
+            });
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function (event) {
+                if (window.innerWidth <= 992 &&
+                    !sidebar.contains(event.target) &&
+                    !menuToggle.contains(event.target) &&
+                    sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                }
+            });
+
+            // Navigation functionality
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function () {
+                    document.querySelectorAll('.nav-item').forEach(navItem => {
+                        navItem.classList.remove('active');
+                    });
+                    this.classList.add('active');
+
+                    // Close sidebar on mobile after navigation
+                    if (window.innerWidth <= 992) {
+                        sidebar.classList.remove('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
